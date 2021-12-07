@@ -9,8 +9,8 @@ from torch.utils.tensorboard import SummaryWriter
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument("--device", type=str, default="cuda:1")
-parser.add_argument('--data', type=str, default='PEMS-D8', help='dataset')
+parser.add_argument("--device", type=str, default="cuda:0")
+parser.add_argument('--data', type=str, default='PEMS-D4', help='dataset')
 parser.add_argument('--batch_size', type=int, default=32, help='batch size')
 parser.add_argument('--epochs', type=int, default=500, help='training epoch')
 parser.add_argument("--seed", type=int, default=520, help='random seed')
@@ -18,7 +18,7 @@ parser.add_argument("--clip", type=float, default=5., help='gradient clip')
 parser.add_argument("--lr", type=float, default=0.001, help='learning rate')
 parser.add_argument("--dropout", type=float, default=0.2, help='dropout rate')
 parser.add_argument('--weight_decay', type=float, default=0.00001, help='weight decay rate')
-parser.add_argument("--comment", type=str, default="PEMS-D8",
+parser.add_argument("--comment", type=str, default="PEMS-D4",
                     help='whether recording')
 parser.add_argument("--recording", type=bool, default=True, help='whether recording')
 
@@ -27,6 +27,8 @@ parser.add_argument('--hidden_dim', type=int, default=128, help='hidden dimensio
 parser.add_argument('--out_dim', type=int, default=1, help='output dimension')
 parser.add_argument("--seq_in", type=int, default=12, help='historical length')
 parser.add_argument("--seq_out", type=int, default=12, help='prediction length')
+
+parser.add_argument("--st_layer", type=int, default=2, help='prediction length')
 
 parser.add_argument("--spatial_factor", type=float, default=5)
 

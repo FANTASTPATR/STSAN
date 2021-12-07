@@ -31,16 +31,27 @@ class Encoder(nn.Module):
     def __init__(self, args):
         super(Encoder, self).__init__()
         self.args = args
-        self.attn1 = STTransformer(self.args)
-        self.conv_layer1 = ConvLayer(self.args, stride=4)
-        self.attn2 = STTransformer(self.args)
-        self.conv_layer2 = ConvLayer(self.args, stride=3)
+        self.attn1 = nn.ModuleList()
+        self.attn2 = nn.ModuleList()
+        self.attn3 = nn.ModuleList()
+        for _ in range(self.args.st_layer):
+            self.attn1.append(STTransformer(self.args))
+            self.attn2.append(STTransformer(self.args))
+            self.attn3.append(STTransformer(self.args))
+        self.conv_layer1 = ConvLayer(self.args, stride=2)
+        self.conv_layer2 = ConvLayer(self.args, stride=2)
+        self.conv_layer3 = ConvLayer(self.args, stride=3)
 
     def forward(self, x):
-        x = self.attn1(x)
+        for layer in self.attn1:
+            x = layer(x)
         x = self.conv_layer1(x)
-        x = self.attn2(x)
+        for layer in self.attn2:
+            x = layer(x)
         x = self.conv_layer2(x)
+        for layer in self.attn3:
+            x = layer(x)
+        x = self.conv_layer3(x)
         return x
 
 
